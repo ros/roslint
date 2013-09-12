@@ -2,23 +2,26 @@
 <package>
   <name>roslint</name>
   <version>0.0.0</version>
-  <description>The roslint package</description>
+  <description>
+    CMake lint commands for ROS packages.
 
-  <maintainer email="mikepurvis@clearpathrobotics.com">Mike Purvis</maintainer>
-
+    The lint commands perform static checking of Python or C++ source
+    code for errors and standards compliance.
+  </description>
   <license>BSD</license>
+  <maintainer email="mikepurvis@clearpathrobotics.com">Mike Purvis</maintainer>
+  <author>Mike Purvis</author>
 
-  <!-- Url tags are optional, but mutiple are allowed, one per tag -->
-  <!-- Optional attribute type can be: website, bugtracker, or repository -->
-  <!-- Example: -->
-  <!-- <url type="website">http://ros.org/wiki/roslint</url> -->
+  <url type="website">http://ros.org/wiki/roslint</url>
+  <url type="repository">https://github.com/ros/roslint.git</url>
+  <url type="bugtracker">https://github.com/ros/roslint/issues</url>
 
-  <!-- Author tags are optional, mutiple are allowed, one per tag -->
-  <!-- Authors do not have to be maintianers, but could be -->
-  <!-- Example: -->
-  <!-- <author email="jane.doe@example.com">Jane Doe</author> -->
-
+  <!-- It would be nicer not to require catkin. -->
   <buildtool_depend>catkin</buildtool_depend>
-  <build_depend>python-pylint</build_depend>
-  <build_depend>python-cpplint</build_depend>
+
+  <!-- These are build export dependencies, needed for packages that
+       use roslint but, it does not require them, itself. -->
+  <run_depend>python-pylint</run_depend>
+  <run_depend>python-cpplint</run_depend>
+
 </package>

@@ -19,16 +19,18 @@ macro(_roslint_create_targets)
   endif()
 endmacro()
 
+# Run cpplint on a list of file names.
+#
 macro(roslint_cpp)
   _roslint_create_targets()
-  FILE(GLOB_RECURSE CPP_SRCS *.cpp *.cc *.h)
   add_custom_command(TARGET roslint_${PROJECT_NAME} POST_BUILD
-    COMMAND cpplint --filter=-whitespace/line_length ${CPP_SRCS})
+                     COMMAND cpplint --filter=-whitespace/line_length ${ARGN})
 endmacro()
 
+# Run pylint on a list of file names.
+#
 macro(roslint_python)
   _roslint_create_targets()
-  FILE(GLOB_RECURSE PYTHON_SRCS *.py)
   add_custom_command(TARGET roslint_${PROJECT_NAME} POST_BUILD
-    COMMAND pylint ${PYTHON_SRCS} --reports=n)
+                     COMMAND pylint ${ARGN} --reports=n)
 endmacro()

@@ -19,6 +19,22 @@ macro(_roslint_create_targets)
   endif()
 endmacro()
 
+# Run a custom lint command on a list of file names.
+# 
+# :param linter: linter command, perhaps with options, followed by a
+#                non-empty list of files to process.
+# :type string
+#
+macro(roslint_custom linter)
+  if(ARGN)
+    _roslint_create_targets()
+    add_custom_command(TARGET roslint_${PROJECT_NAME} POST_BUILD
+                       COMMAND linter ${ARGN})
+  else ()
+    message(WARNING "roslint: no files provided for command")
+  endif()
+endmacro()
+
 # Run cpplint on a list of file names.
 #
 macro(roslint_cpp)

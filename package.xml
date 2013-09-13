@@ -11,6 +11,7 @@
   <license>BSD</license>
   <maintainer email="mikepurvis@clearpathrobotics.com">Mike Purvis</maintainer>
   <author>Mike Purvis</author>
+  <author>Jack O'Quin</author>
 
   <url type="website">http://ros.org/wiki/roslint</url>
   <url type="repository">https://github.com/ros/roslint.git</url>

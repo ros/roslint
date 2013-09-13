@@ -3,16 +3,21 @@
 # Set up CMake environment to run tests:
 include(${PROJECT_SOURCE_DIR}/cmake/roslint-extras.cmake)
 
-# Python unit tests
+# Some simple Python unit tests, which must return zero status or make
+# run_tests appears to fail.
 roslint_python(${CMAKE_CURRENT_SOURCE_DIR}/clean1.py)
 
-## Comment out for now.  Pylint returns non-zero status, as it should,
-## but that looks like failure for unit test.  Proposed solution:
-## users to override the actual command with a CMake variable or
-## option.
-##
-#roslint_python(${CMAKE_CURRENT_SOURCE_DIR}/clean1.py
-#               ${CMAKE_CURRENT_SOURCE_DIR}/dirty1.py)
+# This should generate a CMake warning.  How to check it?
+message("The following roslint test should generate a warning message:")
+roslint_custom("no_such_linter")
+
+# Run pylint with expected return status:
+set(PYLINT_0 "${CMAKE_CURRENT_SOURCE_DIR}/runlint.py 0 pylint")
+roslint_custom(${PYLINT_0}
+               ${CMAKE_CURRENT_SOURCE_DIR}/clean1.py)
+set(PYLINT_16 "${CMAKE_CURRENT_SOURCE_DIR}/runlint.py 16 pylint")
+roslint_custom(${PYLINT_0}
+               ${CMAKE_CURRENT_SOURCE_DIR}/dirty1.py)
 
 # no C++ tests yet
 

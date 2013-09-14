@@ -1,19 +1,17 @@
-if(_ROSLINT_EXTRAS_INCLUDED_)
+if (_ROSLINT_EXTRAS_INCLUDED_)
   return()
 endif()
 set(_ROSLINT_EXTRAS_INCLUDED_ TRUE)
 
 macro(_roslint_create_targets)
   # Create the master "roslint" target if it doesn't exist yet.
-  if(TARGET roslint)
-  else()
+  if (NOT TARGET roslint)
     add_custom_target(roslint)
   endif()
 
   # Create the "roslint_pkgname" target if it doesn't exist yet. Doing this
   # with a check means that multiple linters can share the same target.
-  if(TARGET roslint_${PROJECT_NAME})
-  else()
+  if (NOT TARGET roslint_${PROJECT_NAME})
     add_custom_target(roslint_${PROJECT_NAME})
     add_dependencies(roslint roslint_${PROJECT_NAME})
   endif()
@@ -26,7 +24,7 @@ endmacro()
 # :type string
 #
 macro(roslint_custom linter)
-  if(ARGN)
+  if (ARGN)
     _roslint_create_targets()
     add_custom_command(TARGET roslint_${PROJECT_NAME} POST_BUILD
                        COMMAND linter ${ARGN})
@@ -38,15 +36,17 @@ endmacro()
 # Run cpplint on a list of file names.
 #
 macro(roslint_cpp)
-  _roslint_create_targets()
-  add_custom_command(TARGET roslint_${PROJECT_NAME} POST_BUILD
-                     COMMAND cpplint --filter=-whitespace/line_length ${ARGN})
+  if (NOT DEFINED ROSLINT_CPP_CMD)
+    set(ROSLINT_CPP_CMD "cpplint --filter=-whitespace/line_length")
+  endif ()
+  roslint_custom(${ROSLINT_CPP_CMD} ${ARGN})
 endmacro()
 
 # Run pylint on a list of file names.
 #
 macro(roslint_python)
-  _roslint_create_targets()
-  add_custom_command(TARGET roslint_${PROJECT_NAME} POST_BUILD
-                     COMMAND pylint ${ARGN} --reports=n)
+  if (NOT DEFINED ROSLINT_PYTHON_CMD)
+    set(ROSLINT_PYTHON_CMD "pylint --reports=n")
+  endif ()
+  roslint_custom(${ROSLINT_PYTHON_CMD} ${ARGN})
 endmacro()

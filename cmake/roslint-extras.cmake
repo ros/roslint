@@ -19,18 +19,19 @@ endmacro()
 
 # Run a custom lint command on a list of file names.
 # 
-# :param linter: linter command, perhaps with options, followed by a
-#                non-empty list of files to process.
+# :param linter: linter command name.
+# :param lintopts: linter options.
+# :param argn: a non-empty list of files to process.
 # :type string
 #
-function(roslint_custom linter)
+function(roslint_custom linter lintopts)
   message("roslint_custom: " ${linter} " " ${ARGN})
   if ("${ARGN}" STREQUAL "")
     message(WARNING "roslint: no files provided for command")
   else ()
     _roslint_create_targets()
     add_custom_command(TARGET roslint_${PROJECT_NAME} POST_BUILD
-                       COMMAND ${linter} ${ARGN})
+                       COMMAND ${linter} "${lintops}" ${ARGN} VERBATIM)
   endif()
 endfunction()
 
@@ -38,16 +39,22 @@ endfunction()
 #
 function(roslint_cpp)
   if (NOT DEFINED ROSLINT_CPP_CMD)
-    set(ROSLINT_CPP_CMD "cpplint --filter=-whitespace/line_length")
+    set(ROSLINT_CPP_CMD "cpplint")
   endif ()
-  roslint_custom("${ROSLINT_CPP_CMD}" ${ARGN})
+  if (NOT DEFINED ROSLINT_CPP_OPTS)
+    set(ROSLINT_CPP_CMD "--filter=-whitespace/line_length")
+  endif ()
+  roslint_custom("${ROSLINT_CPP_CMD}" "${ROSLINT_CPP_OPTS}" ${ARGN})
 endfunction()
 
 # Run pylint on a list of file names.
 #
 function(roslint_python)
   if (NOT DEFINED ROSLINT_PYTHON_CMD)
-    set(ROSLINT_PYTHON_CMD "pylint --reports=n")
+    set(ROSLINT_PYTHON_CMD "pylint")
   endif ()
-  roslint_custom("${ROSLINT_PYTHON_CMD}" ${ARGN})
+  if (NOT DEFINED ROSLINT_PYTHON_CMD)
+    set(ROSLINT_PYTHON_OPTS "--reports=n")
+  endif ()
+  roslint_custom("${ROSLINT_PYTHON_CMD}" "${ROSLINT_PYTHON_OPTS}" ${ARGN})
 endfunction()

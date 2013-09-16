@@ -53,8 +53,8 @@ def main(returnstatus, linter, files):
     """
     cmd = linter.split() + files
     print('lint command: ' + ' '.join(cmd))
-    rc = subprocess.call(cmd)
-    if rc != int(returnstatus):
+    sub_rc = subprocess.call(cmd)
+    if sub_rc != int(returnstatus):
         return 1
     else:
         return 0
@@ -62,9 +62,11 @@ def main(returnstatus, linter, files):
 
 if __name__ == '__main__':
 
-    rc = -9                     # return status for missing args
+    # for some reason, pylint wants this variable name to be uppercase:
+    #pylint: disable=C0103
+    ret_status = -9             # return status for missing args
     if len(sys.argv) > 3:
-        rc = main(sys.argv[1], sys.argv[2], sys.argv[3:])
+        ret_status = main(sys.argv[1], sys.argv[2], sys.argv[3:])
     else:
         print('usage: runlint returnstatus linter file1 [ file2 ... ]')
-    sys.exit(rc)
+    sys.exit(ret_status)

@@ -9,7 +9,7 @@ if (CATKIN_ENABLE_TESTING)
   #  add_subdirectory(tests)
 endif ()
 
-install(PROGRAMS scripts/cpplint
+install(PROGRAMS scripts/cpplint scripts/pep8
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 

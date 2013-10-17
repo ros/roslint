@@ -31,6 +31,7 @@ function(roslint_custom linter lintopts)
   else ()
     _roslint_create_targets()
     add_custom_command(TARGET roslint_${PROJECT_NAME} POST_BUILD
+                       WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
                        COMMAND ${linter} ${lintopts} ${ARGN} VERBATIM)
   endif()
 endfunction()

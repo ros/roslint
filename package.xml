@@ -20,11 +20,9 @@
   <!-- It would be nicer not to require catkin. -->
   <buildtool_depend>catkin</buildtool_depend>
 
-  <!-- These are build export dependencies, needed for packages that
-       use roslint but, it does not require them, itself. -->
+  <!-- For now, there is no cpplint or pep8 releases in Ubuntu debs, so
+       these files are simply included with the package.
   <run_depend>python-pylint</run_depend>
-  <!-- For now, there is no cpplint release in Ubuntu debs, so cpplint.py is
-       simply included with roslint.
   <run_depend>python-cpplint</run_depend>
   -->
 

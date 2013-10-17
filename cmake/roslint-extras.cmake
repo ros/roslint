@@ -48,14 +48,14 @@ function(roslint_cpp)
   roslint_custom("${ROSLINT_CPP_CMD}" "${ROSLINT_CPP_OPTS}" ${ARGN})
 endfunction()
 
-# Run pylint on a list of file names.
+# Run pep8 on a list of file names.
 #
 function(roslint_python)
   if (NOT DEFINED ROSLINT_PYTHON_CMD)
-    set(ROSLINT_PYTHON_CMD "pylint")
+    set(ROSLINT_PYTHON_CMD rosrun roslint pep8)
   endif ()
   if (NOT DEFINED ROSLINT_PYTHON_CMD)
-    set(ROSLINT_PYTHON_OPTS "--reports=n")
+    set(ROSLINT_PYTHON_OPTS "")
   endif ()
   roslint_custom("${ROSLINT_PYTHON_CMD}" "${ROSLINT_PYTHON_OPTS}" ${ARGN})
 endfunction()

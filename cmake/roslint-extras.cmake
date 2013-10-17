@@ -39,7 +39,7 @@ endfunction()
 #
 function(roslint_cpp)
   if (NOT DEFINED ROSLINT_CPP_CMD)
-    set(ROSLINT_CPP_CMD "cpplint")
+    set(ROSLINT_CPP_CMD "rosrun roslint cpplint")
   endif ()
   if (NOT DEFINED ROSLINT_CPP_OPTS)
     set(ROSLINT_CPP_CMD "--filter=-whitespace/line_length")

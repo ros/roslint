@@ -23,8 +23,8 @@
   <!-- These are build export dependencies, needed for packages that
        use roslint but, it does not require them, itself. -->
   <run_depend>python-pylint</run_depend>
-  <!-- Comment out until python-cpplint resolves correctly, so the
-       devel tests don't fail continually:
+  <!-- For now, there is no cpplint release in Ubuntu debs, so cpplint.py is
+       simply included with roslint.
   <run_depend>python-cpplint</run_depend>
   -->
 

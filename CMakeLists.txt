@@ -8,3 +8,11 @@ catkin_package(CFG_EXTRAS roslint-extras.cmake)
 if (CATKIN_ENABLE_TESTING)
   add_subdirectory(tests)
 endif ()
+
+install(PROGRAMS scripts/cpplint
+  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
+
+install(DIRECTORY cmake
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+)

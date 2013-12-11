@@ -4,6 +4,7 @@ project(roslint)
 find_package(catkin REQUIRED)
 
 catkin_package(CFG_EXTRAS roslint-extras.cmake)
+catkin_python_setup()
 
 if (CATKIN_ENABLE_TESTING)
   #  add_subdirectory(tests)

@@ -1,6 +1,8 @@
 
-from cpplint import cpplint
-from cpplint.cpplint import Match, IsBlankLine
+# from cpplint import cpplint
+# from cpplint.cpplint import Match, IsBlankLine
+from roslint import cpplint
+from roslint.cpplint import Match, IsBlankLine, main
 from functools import partial
 
 import os.path, re

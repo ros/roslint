@@ -3,6 +3,16 @@ if (_ROSLINT_EXTRAS_INCLUDED_)
 endif()
 set(_ROSLINT_EXTRAS_INCLUDED_ TRUE)
 
+@[if DEVELSPACE]@
+# bin and template dir variables in develspace
+set(ROSLINT_SCRIPTS_CPPLINT "@(CMAKE_CURRENT_SOURCE_DIR)/scripts/cpplint")
+set(ROSLINT_SCRIPTS_PEP8 "@(CMAKE_CURRENT_SOURCE_DIR)/scripts/pep8")
+@[else]@
+# bin and template dir variables in installspace
+set(ROSLINT_SCRIPTS_CPPLINT "${roslint_DIR}/../../../@(CATKIN_PACKAGE_BIN_DESTINATION)/cpplint")
+set(ROSLINT_SCRIPTS_PEP8 "${roslint_DIR}/../../../@(CATKIN_PACKAGE_BIN_DESTINATION)/pep8")
+@[end if]@
+
 macro(_roslint_create_targets)
   # Create the master "roslint" target if it doesn't exist yet.
   if (NOT TARGET roslint)
@@ -39,7 +49,7 @@ endfunction()
 #
 function(roslint_cpp)
   if (NOT DEFINED ROSLINT_CPP_CMD)
-    set(ROSLINT_CPP_CMD rosrun roslint cpplint)
+    set(ROSLINT_CPP_CMD ${ROSLINT_SCRIPTS_CPPLINT})
   endif ()
   if (NOT DEFINED ROSLINT_CPP_OPTS)
     set(ROSLINT_CPP_OPTS "--filter=-runtime/references")
@@ -51,7 +61,7 @@ endfunction()
 #
 function(roslint_python)
   if (NOT DEFINED ROSLINT_PYTHON_CMD)
-    set(ROSLINT_PYTHON_CMD rosrun roslint pep8)
+    set(ROSLINT_PYTHON_CMD ${ROSLINT_SCRIPTS_PEP8})
   endif ()
   if (NOT DEFINED ROSLINT_PYTHON_OPTS)
     set(ROSLINT_PYTHON_OPTS "--max-line-length=120")

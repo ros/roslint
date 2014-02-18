@@ -2,6 +2,12 @@
 Changelog for package roslint
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Add roslint_add_test function
+* Run the include-line checks with errors suppressed. This kills spurious build/include_what_you_use errors.
+* Contributors: Mike Purvis
+
 0.9.0 (2014-02-17)
 ------------------
 * Allow a trailing semicolon after closing brace.

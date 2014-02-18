@@ -2,8 +2,8 @@
 Changelog for package roslint
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.9.1 (2014-02-18)
+------------------
 * Add roslint_add_test function
 * Run the include-line checks with errors suppressed. This kills spurious build/include_what_you_use errors.
 * Contributors: Mike Purvis

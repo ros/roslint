@@ -2,6 +2,16 @@
 Changelog for package roslint
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Allow a trailing semicolon after closing brace.
+* Add more tolerance for braces as array initializers, and eliminate the warning about access control labels.
+* Rename python library to roslint, to play better.
+* Use templated extras file to find roslint scripts without rosrun. 
+* Max length override for pep8; remove roslint custom shout.
+* Add some overrides in an effort to comply better with ROS C++ Style.
+* Contributors: Mike Purvis
+
 0.0.1 (2013-10-17)
 ------------------
 * Basic initial release, with roslint_python, roslint_cpp, and roslint_custom macros included.

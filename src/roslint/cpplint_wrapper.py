@@ -78,16 +78,17 @@ def CheckBraces(fn, filename, clean_lines, linenum, error):
 
 @patch(cpplint)
 def CheckIncludeLine(fn, filename, clean_lines, linenum, include_state, error):
-    """ For now, completely disable these checks, as ROS C++ Style is silent on include order,
-        and contains no prohibition on use of streams. """
-    pass
+    """ Run the function to get include state, but suppress all the errors, since
+        ROS C++ Style is silent on include order, and contains no prohibition on use of streams. """
+    fn(filename, clean_lines, linenum, include_state,
+       makeErrorFn(error, ['build/include_order', 'build/include_alpha', 'readability/streams'], []))
 
 @patch(cpplint)
 def CheckSpacing(fn, filename, clean_lines, linenum, nesting_state, error):
     """ Do most of the original Spacing checks, but suppress the ones related to braces, since
         the ROS C++ Style rules are different. """
     fn(filename, clean_lines, linenum, nesting_state,
-            makeErrorFn(error, ['readability/braces', 'whitespace/braces'], []))
+       makeErrorFn(error, ['readability/braces', 'whitespace/braces'], []))
 
 @patch(cpplint)
 def ProcessLine(fn, filename, file_extension, clean_lines, line,

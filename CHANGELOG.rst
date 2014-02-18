@@ -2,8 +2,8 @@
 Changelog for package roslint
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.9.0 (2014-02-17)
+------------------
 * Allow a trailing semicolon after closing brace.
 * Add more tolerance for braces as array initializers, and eliminate the warning about access control labels.
 * Rename python library to roslint, to play better.

@@ -48,23 +48,37 @@ endfunction()
 # Run cpplint on a list of file names.
 #
 function(roslint_cpp)
+  if ("${ARGN}" STREQUAL "")
+    file(GLOB_RECURSE ARGN *.cpp *.h)
+  endif()
+  message("xxx ${ARGN}")
   if (NOT DEFINED ROSLINT_CPP_CMD)
     set(ROSLINT_CPP_CMD ${ROSLINT_SCRIPTS_CPPLINT})
-  endif ()
+  endif()
   if (NOT DEFINED ROSLINT_CPP_OPTS)
     set(ROSLINT_CPP_OPTS "--filter=-runtime/references")
-  endif ()
+  endif()
   roslint_custom("${ROSLINT_CPP_CMD}" "${ROSLINT_CPP_OPTS}" ${ARGN})
 endfunction()
 
 # Run pep8 on a list of file names.
 #
 function(roslint_python)
+  if ("${ARGN}" STREQUAL "")
+    file(GLOB_RECURSE ARGN *.py)
+  endif()
   if (NOT DEFINED ROSLINT_PYTHON_CMD)
     set(ROSLINT_PYTHON_CMD ${ROSLINT_SCRIPTS_PEP8})
-  endif ()
+  endif()
   if (NOT DEFINED ROSLINT_PYTHON_OPTS)
     set(ROSLINT_PYTHON_OPTS "--max-line-length=120")
-  endif ()
+  endif()
   roslint_custom("${ROSLINT_PYTHON_CMD}" "${ROSLINT_PYTHON_OPTS}" ${ARGN})
+endfunction()
+
+# Run roslint for this package as a test.
+# TODO: capture output, format as junit xml, use catkin_run_tests_target
+function(roslint_add_test)
+  _roslint_create_targets()
+  add_dependencies(run_tests_${PROJECT_NAME} roslint_${PROJECT_NAME})   
 endfunction()

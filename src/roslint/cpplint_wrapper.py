@@ -71,8 +71,9 @@ def CheckBraces(fn, filename, clean_lines, linenum, error):
                       'when starting a new scope, { should be on a line by itself')
         m = Match(r'^(.*)}(.*)$', line)
         if m and (not IsBlankLine(m.group(1)) or not IsBlankLine(m.group(2))):
-            error(filename, linenum, 'whitespace/braces', 4,
-                  '} should be on a line by itself')
+            if m.group(2) != ";":
+                error(filename, linenum, 'whitespace/braces', 4,
+                      '} should be on a line by itself')
     pass
 
 @patch(cpplint)

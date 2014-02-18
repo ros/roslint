@@ -23,11 +23,15 @@ def patch(original_module):
         return override_fn 
     return wrap 
 
-def makeErrorFn(original_fn, suppress_categories):
+def makeErrorFn(original_fn, suppress_categories, suppress_message_matches):
     """ Create a return a wrapped version of the error-report function which suppresses specific
         error categories. """
     def newError(filename, linenum, category, confidence, message):
         if category in suppress_categories:
+            return
+        #if "should be" in message:
+        #    print suppress_message_matches, message, [Match(r, message) for r in suppress_message_matches]
+        if True in [bool(Match(r, message)) for r in suppress_message_matches]:
             return
         original_fn(filename, linenum, category, confidence, message)
     return newError
@@ -49,14 +53,26 @@ def CheckBraces(fn, filename, clean_lines, linenum, error):
     """ Complete replacement for cpplint.CheckBraces, since the brace rules for ROS C++ Style
         are completely different from the Google style guide ones. """
     line = clean_lines.elided[linenum]
-    m = Match(r'^(.*){(.*)$', line)
-    if m and not (IsBlankLine(m.group(1))):
-        error(filename, linenum, 'whitespace/braces', 4,
-              'when starting a new scope, { should be on a line by itself')
-    m = Match(r'^(.*)}(.*)$', line)
-    if m and (not IsBlankLine(m.group(1)) or not IsBlankLine(m.group(2))):
-        error(filename, linenum, 'whitespace/braces', 4,
-              '} should be on a line by itself')
+    if Match(r'^(.*){(.*)}.?$', line):
+        # Special case when both braces are on the same line together, as is the 
+        # case for one-line getters and setters, for example, or rows of a multi-
+        # dimenstional array initializer.
+        pass
+    else:
+        # Line does not contain both an opening and closing brace.
+        m = Match(r'^(.*){(.*)$', line)
+        if m and not (IsBlankLine(m.group(1))):
+            # Line contains a starting brace and is not empty, uh oh. 
+            if "=" in line:
+                # Opening brace is permissable in case of an initializer.
+                pass
+            else:
+                error(filename, linenum, 'whitespace/braces', 4,
+                      'when starting a new scope, { should be on a line by itself')
+        m = Match(r'^(.*)}(.*)$', line)
+        if m and (not IsBlankLine(m.group(1)) or not IsBlankLine(m.group(2))):
+            error(filename, linenum, 'whitespace/braces', 4,
+                  '} should be on a line by itself')
     pass
 
 @patch(cpplint)
@@ -67,7 +83,17 @@ def CheckIncludeLine(fn, filename, clean_lines, linenum, include_state, error):
 
 @patch(cpplint)
 def CheckSpacing(fn, filename, clean_lines, linenum, nesting_state, error):
-    """ Do most of the original Spacing checks, but suppress the ones related braces, since
+    """ Do most of the original Spacing checks, but suppress the ones related to braces, since
         the ROS C++ Style rules are different. """
     fn(filename, clean_lines, linenum, nesting_state,
-            makeErrorFn(error, ['readability/braces', 'whitespace/braces']))
+            makeErrorFn(error, ['readability/braces', 'whitespace/braces'], []))
+
+@patch(cpplint)
+def ProcessLine(fn, filename, file_extension, clean_lines, line,
+                include_state, function_state, nesting_state, error,
+                extra_check_functions=[]):
+    """ Squelch the error about access control indents. """
+    fn(filename, file_extension, clean_lines, line,
+       include_state, function_state, nesting_state,
+       makeErrorFn(error, [], [r'(.*)should be indented \+1 space inside class(.*)']),
+       extra_check_functions=[])

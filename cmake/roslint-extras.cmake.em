@@ -5,12 +5,10 @@ set(_ROSLINT_EXTRAS_INCLUDED_ TRUE)
 
 @[if INSTALLSPACE]@
 # bin and template dir variables in installspace
-set(ROSLINT_SCRIPTS_CPPLINT "${roslint_DIR}/../../../@(CATKIN_PACKAGE_BIN_DESTINATION)/cpplint")
-set(ROSLINT_SCRIPTS_PEP8 "${roslint_DIR}/../../../@(CATKIN_PACKAGE_BIN_DESTINATION)/pep8")
+set(ROSLINT_SCRIPTS_DIR "${roslint_DIR}/../../../@(CATKIN_PACKAGE_BIN_DESTINATION)")
 @[else]@
 # bin and template dir variables in develspace
-set(ROSLINT_SCRIPTS_CPPLINT "@(CMAKE_CURRENT_SOURCE_DIR)/scripts/cpplint")
-set(ROSLINT_SCRIPTS_PEP8 "@(CMAKE_CURRENT_SOURCE_DIR)/scripts/pep8")
+set(ROSLINT_SCRIPTS_DIR "@(CMAKE_CURRENT_SOURCE_DIR)/scripts")
 @[end if]@
 
 macro(_roslint_create_targets)
@@ -52,7 +50,7 @@ function(roslint_cpp)
     file(GLOB_RECURSE ARGN *.cpp *.h)
   endif()
   if (NOT DEFINED ROSLINT_CPP_CMD)
-    set(ROSLINT_CPP_CMD ${ROSLINT_SCRIPTS_CPPLINT})
+    set(ROSLINT_CPP_CMD ${ROSLINT_SCRIPTS_DIR}/cpplint)
   endif()
   if (NOT DEFINED ROSLINT_CPP_OPTS)
     set(ROSLINT_CPP_OPTS "--filter=-runtime/references")
@@ -67,7 +65,7 @@ function(roslint_python)
     file(GLOB_RECURSE ARGN *.py)
   endif()
   if (NOT DEFINED ROSLINT_PYTHON_CMD)
-    set(ROSLINT_PYTHON_CMD ${ROSLINT_SCRIPTS_PEP8})
+    set(ROSLINT_PYTHON_CMD ${ROSLINT_SCRIPTS_DIR}/pep8)
   endif()
   if (NOT DEFINED ROSLINT_PYTHON_OPTS)
     set(ROSLINT_PYTHON_OPTS "--max-line-length=120")
@@ -76,8 +74,8 @@ function(roslint_python)
 endfunction()
 
 # Run roslint for this package as a test.
-# TODO: capture output, format as junit xml, use catkin_run_tests_target
 function(roslint_add_test)
-  _roslint_create_targets()
-  add_dependencies(run_tests_${PROJECT_NAME} roslint_${PROJECT_NAME})   
+  catkin_run_tests_target("roslint" "package" "roslint-${PROJECT_NAME}.xml"
+    COMMAND "${ROSLINT_SCRIPTS_DIR}/test_wrapper ${CATKIN_TEST_RESULTS_DIR}/${PROJECT_NAME}/roslint-${PROJECT_NAME}.xml make roslint_${PROJECT_NAME}"
+    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
 endfunction()

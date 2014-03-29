@@ -6,7 +6,7 @@ find_package(catkin REQUIRED)
 catkin_package(CFG_EXTRAS roslint-extras.cmake)
 catkin_python_setup()
 
-install(PROGRAMS scripts/cpplint scripts/pep8
+install(PROGRAMS scripts/cpplint scripts/pep8 scripts/test_wrapper
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
@@ -15,6 +15,8 @@ install(DIRECTORY cmake
 )
 
 # Lint itself. This also serves as a smoke check of the cmake extras file.
+# Please note that this complexity is due to self-checking. For typical usage, please
+# see the ROS wiki: http://wiki.ros.org/roslint
 if(CATKIN_ENABLE_TESTING)
   set(extra "cmake/roslint-extras.cmake")
   em_expand(${catkin_EXTRAS_DIR}/templates/cfg-extras.context.py.in
@@ -26,4 +28,5 @@ if(CATKIN_ENABLE_TESTING)
   roslint_python(
     setup.py
     src/roslint/cpplint_wrapper.py)
+  roslint_add_test()
 endif()

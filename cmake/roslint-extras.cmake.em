@@ -3,14 +3,14 @@ if (_ROSLINT_EXTRAS_INCLUDED_)
 endif()
 set(_ROSLINT_EXTRAS_INCLUDED_ TRUE)
 
-@[if DEVELSPACE]@
-# bin and template dir variables in develspace
-set(ROSLINT_SCRIPTS_CPPLINT "@(CMAKE_CURRENT_SOURCE_DIR)/scripts/cpplint")
-set(ROSLINT_SCRIPTS_PEP8 "@(CMAKE_CURRENT_SOURCE_DIR)/scripts/pep8")
-@[else]@
+@[if INSTALLSPACE]@
 # bin and template dir variables in installspace
 set(ROSLINT_SCRIPTS_CPPLINT "${roslint_DIR}/../../../@(CATKIN_PACKAGE_BIN_DESTINATION)/cpplint")
 set(ROSLINT_SCRIPTS_PEP8 "${roslint_DIR}/../../../@(CATKIN_PACKAGE_BIN_DESTINATION)/pep8")
+@[else]@
+# bin and template dir variables in develspace
+set(ROSLINT_SCRIPTS_CPPLINT "@(CMAKE_CURRENT_SOURCE_DIR)/scripts/cpplint")
+set(ROSLINT_SCRIPTS_PEP8 "@(CMAKE_CURRENT_SOURCE_DIR)/scripts/pep8")
 @[end if]@
 
 macro(_roslint_create_targets)

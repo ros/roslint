@@ -2,8 +2,8 @@
 Changelog for package roslint
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.9.2 (2014-03-31)
+------------------
 * Better implementation of roslint_add_test
 * Simple implementation of XML results output
 * roslint roslints itself

@@ -2,6 +2,13 @@
 Changelog for package roslint
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Better implementation of roslint_add_test
+* Simple implementation of XML results output
+* roslint roslints itself
+* Contributors: Mike Purvis
+
 0.9.1 (2014-02-18)
 ------------------
 * Add roslint_add_test function

@@ -2,8 +2,8 @@
 Changelog for package roslint
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.9.3 (2015-01-06)
+------------------
 * Don't hang on header outside "include" dir.
 * Contributors: Mike Purvis
 

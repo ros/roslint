@@ -106,5 +106,5 @@ def ProcessLine(fn, filename, file_extension, clean_lines, line,
     """ Squelch the error about access control indents. """
     fn(filename, file_extension, clean_lines, line,
        include_state, function_state, nesting_state,
-       makeErrorFn(error, [], [r'(.*)should be indented \+1 space inside class(.*)']),
+       makeErrorFn(error, [], [r'(.*)should be indented \+1 space inside(.*)']),
        extra_check_functions=[])

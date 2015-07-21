@@ -108,3 +108,43 @@ def ProcessLine(fn, filename, file_extension, clean_lines, line,
        include_state, function_state, nesting_state,
        makeErrorFn(error, [], [r'(.*)should be indented \+1 space inside(.*)']),
        extra_check_functions=[])
+
+
+@patch(cpplint)
+def CheckEmptyBlockBody(fn, filename, clean_lines, linenum, error):
+    """ Look for empty loop/conditional body with only a single semicolon,
+        but allow ros-style do while loops. """
+    from cpplint import CloseExpression
+
+    # Search for loop keywords at the beginning of the line.  Because only
+    # whitespaces are allowed before the keywords, this will also ignore most
+    # do-while-loops, since those lines should start with closing brace.
+    #
+    # We also check "if" blocks here, since an empty conditional block
+    # is likely an error.
+    line = clean_lines.elided[linenum]
+    matched = Match(r'\s*(for|while|if)\s*\(', line)
+    if matched:
+        # Find the end of the conditional expression
+        (end_line, end_linenum, end_pos) = CloseExpression(
+            clean_lines, linenum, line.find('('))
+
+        # Output warning if what follows the condition expression is a
+        # semicolon.  No warning for all other cases, including
+        # whitespace or newline, since we have a separate check for
+        # semicolons preceded by whitespace.
+        if end_pos >= 0 and Match(r';', end_line[end_pos:]):
+            if matched.group(1) == 'if':
+                error(filename, end_linenum,
+                      'whitespace/empty_conditional_body', 5,
+                      'Empty conditional bodies should use {}')
+            elif matched.group(1) == 'while' and linenum is not 0 \
+                    and "}" in clean_lines.elided[linenum-1]:
+                # Don't report an error for ros style do-whiles. Works
+                # by checking for a closing brace on the previous
+                # line, since that means it's probably a do-while
+                # loop.
+                return
+            else:
+                error(filename, end_linenum, 'whitespace/empty_loop_body', 5,
+                      'Empty loop bodies should use {} or continue')

@@ -32,8 +32,6 @@ def makeErrorFn(original_fn, suppress_categories, suppress_message_matches):
     def newError(filename, linenum, category, confidence, message):
         if category in suppress_categories:
             return
-        #if "should be" in message:
-        #    print suppress_message_matches, message, [Match(r, message) for r in suppress_message_matches]
         if True in [bool(Match(r, message)) for r in suppress_message_matches]:
             return
         original_fn(filename, linenum, category, confidence, message)

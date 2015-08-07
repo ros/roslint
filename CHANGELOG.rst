@@ -2,6 +2,14 @@
 Changelog for package roslint
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Updated pep8 from 1.4.7a0 to 1.6.2
+* Updated cpplint to the latest version (https://github.com/google/styleguide/tree/554223dc5432f9bd67951cde662f7a023c512dec)
+* Fix for falsely reporting do-whiles as an error
+* Fixes for access control in structs
+* Contributors: Alex Henning, Mike Purvis
+
 0.9.3 (2015-01-06)
 ------------------
 * Don't hang on header outside "include" dir.

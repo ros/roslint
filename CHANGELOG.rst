@@ -2,8 +2,8 @@
 Changelog for package roslint
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.10.0 (2015-08-07)
+-------------------
 * Updated pep8 from 1.4.7a0 to 1.6.2
 * Updated cpplint to the latest version (https://github.com/google/styleguide/tree/554223dc5432f9bd67951cde662f7a023c512dec)
 * Fix for falsely reporting do-whiles as an error

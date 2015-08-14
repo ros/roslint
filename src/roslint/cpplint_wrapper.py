@@ -96,7 +96,7 @@ def CheckBraces(fn, filename, clean_lines, linenum, error):
         m = Match(r'^(.*){(.*)$', line)
         if m and not (IsBlankLine(m.group(1))):
             # Line contains a starting brace and is not empty, uh oh.
-            if "=" in line:
+            if "=" in line and Match(r'\)( *){$', line):
                 # Opening brace is permissable in case of an initializer.
                 pass
             else:

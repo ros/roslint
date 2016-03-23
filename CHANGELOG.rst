@@ -2,6 +2,14 @@
 Changelog for package roslint
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Add Alex Henning as maintainer
+* Moved default flags for cpplint from cmake file to cpplint script to have centralized place for such flag.
+* Set the python max-line-length to 120, allows `rosrun roslint pep8` to run with the expected settings.
+* Fixes issue #40 <https://github.com/ros/roslint/issues/40>.
+* Contributors: Alex Henning, Andriy Petlovanyy, Mike Purvis
+
 0.10.0 (2015-08-07)
 -------------------
 * Updated pep8 from 1.4.7a0 to 1.6.2

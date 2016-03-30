@@ -5,5 +5,6 @@ setup(**generate_distutils_setup(
     packages=['roslint'],
     package_dir={
       '': 'src'
-      }
+      },
+    scripts=['scripts/cpplint'],
 ))

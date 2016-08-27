@@ -1,6 +1,7 @@
 #!/bin/bash
 
 RESULTS_FILE=$1
+TARGET_NAME=${@: -1}
 shift
 
 # Run remain args as test command, capturing the output.
@@ -14,7 +15,7 @@ cat <<ENDXML > $RESULTS_FILE
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites tests="1" failures="0" errors="0" name="Linters">
   <testsuite name="Linters" tests="1" failures="0">
-    <testcase name="roslint" status="run" classname="Linter" />
+    <testcase name="$TARGET_NAME" status="run" classname="Linter" />
   </testsuite>
 </testsuites>
 ENDXML
@@ -26,7 +27,7 @@ else
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites tests="1" failures="1" errors="0" name="Linters">
   <testsuite name="Linters" tests="1" failures="1">
-    <testcase name="roslint" classname="Linter">
+    <testcase name="$TARGET_NAME" classname="Linter">
       <failure message="One or more linter errors was reported." type=""><![CDATA[$LINTER_OUTPUT]]></failure>
     </testcase>
   </testsuite>

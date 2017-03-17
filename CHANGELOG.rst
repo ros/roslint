@@ -2,6 +2,11 @@
 Changelog for package roslint
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Set testcase class name, simplify result XML. (`#53 <https://github.com/ros/roslint/issues/53>`_)
+* Contributors: Mike Purvis
+
 0.11.0 (2016-03-23)
 -------------------
 * Add Alex Henning as maintainer

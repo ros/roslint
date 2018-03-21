@@ -2,8 +2,8 @@
 Changelog for package roslint
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.11.2 (2018-03-21)
+-------------------
 * Define xrange() for Python 3 (`#60 <https://github.com/ros/roslint/issues/60>`_)
 * Contributors: cclauss
 

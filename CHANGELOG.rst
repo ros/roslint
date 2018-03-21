@@ -2,6 +2,11 @@
 Changelog for package roslint
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Define xrange() for Python 3 (`#60 <https://github.com/ros/roslint/issues/60>`_)
+* Contributors: cclauss
+
 0.11.1 (2017-03-17)
 -------------------
 * Set testcase class name, simplify result XML. (`#53 <https://github.com/ros/roslint/issues/53>`_)

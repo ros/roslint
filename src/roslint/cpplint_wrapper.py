@@ -86,7 +86,7 @@ def CheckBraces(fn, filename, clean_lines, linenum, error):
     """ Complete replacement for cpplint.CheckBraces, since the brace rules for ROS C++ Style
         are completely different from the Google style guide ones. """
     line = clean_lines.elided[linenum]
-    if Match(r'^(.*){(.*)}.?$', line):
+    if Match(r'^(.*){(.*)}.*$', line):
         # Special case when both braces are on the same line together, as is the
         # case for one-line getters and setters, for example, or rows of a multi-
         # dimenstional array initializer.

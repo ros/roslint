@@ -76,7 +76,7 @@ def GetHeaderGuardCPPVariable(fn, filename):
     while head:
         head, tail = os.path.split(head)
         var_parts.insert(0, tail)
-        if head.endswith('include') or tail == "":
+        if head.endswith('include') or os.path.exists(os.path.join(head, "package.xml")) or tail == "":
             break
     return re.sub(r'[-./\s]', '_', "_".join(var_parts)).upper()
 

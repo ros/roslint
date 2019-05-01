@@ -47,7 +47,7 @@ endfunction()
 #
 function(roslint_cpp)
   if ("${ARGN}" STREQUAL "")
-    file(GLOB_RECURSE ARGN *.cpp *.h)
+    file(GLOB_RECURSE ARGN *.cpp *.h *.hpp)
   endif()
   if (NOT DEFINED ROSLINT_CPP_CMD)
     set(ROSLINT_CPP_CMD ${ROSLINT_SCRIPTS_DIR}/cpplint)

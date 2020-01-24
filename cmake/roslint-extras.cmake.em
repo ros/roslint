@@ -82,6 +82,18 @@ function(roslint_yaml)
   roslint_custom("${ROSLINT_YAML_CMD}" "-d ${ROSLINT_YAML_OPTS}" "--strict" ${ARGN})
 endfunction()
 
+# Run markdown lint
+#
+function(roslint_markdown)
+  if ("${ARGN}" STREQUAL "")
+    file(GLOB_RECURSE ARGN *.md)
+  endif()
+  if (NOT DEFINED ROSLINT_MARKDOWN_CMD)
+    set(ROSLINT_MARKDOWN_CMD ${ROSLINT_SCRIPTS_DIR}/markdownlint)
+  endif()
+  roslint_custom("${ROSLINT_MARKDOWN_CMD}" "${ROSLINT_MARKDOWN_OPTS}" ${ARGN})
+endfunction()
+
 # Run catkin_lint
 #
 function(roslint_catkin)

@@ -1,0 +1,77 @@
+#!/usr/bin/env python
+
+import argparse
+import sys
+try:
+    from roslint import pymarkdownlint_lint as lint
+    from roslint import pymarkdownlint_rules as rules
+    from collections import OrderedDict
+except ImportError:
+    # Allows the target to work with an un-sourced workspace.
+    import os.path
+    sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), "..", "src"))
+    from roslint import pymarkdownlint_lint as lint
+    from roslint import pymarkdownlint_rules as rules
+    from collections import OrderedDict
+
+'''
+The MIT License (MIT)
+
+Copyright (c) 2015 Joris Roovers
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+'''
+
+
+# LintConfig copied from https://raw.githubusercontent.com/jorisroovers/pymarkdownlint/master/pymarkdownlint/config.py
+class LintConfig(object):
+    """ Class representing markdownlint configuration """
+    default_rule_classes = [rules.MaxLineLengthRule, rules.TrailingWhiteSpace, rules.HardTab]
+
+    def __init__(self):
+        # Use an ordered dict so that the order in which rules are applied is always the same
+        self._rules = OrderedDict([(rule_cls.id, rule_cls()) for rule_cls in self.default_rule_classes])
+
+    @property
+    def rules(self):
+        return self._rules.values()
+
+    def get_rule_by_name_or_id(self, rule_id_or_name):
+        # try finding rule by id
+        rule = self._rules.get(rule_id_or_name)
+        # if not found, try finding rule by name
+        if not rule:
+            rule = next((rule for rule in self.rules if rule.name == rule_id_or_name), None)
+        return rule
+
+# Prepend max line-length so that user can overide it. The number is 1
+# since 0 is the name of the program.
+sys.argv.insert(1, "--max-line-length=120")
+
+parser = argparse.ArgumentParser(description='markdownlint')
+parser.add_argument('--max-line-length', type=int, help='set max line length')
+parser.add_argument('files', type=str, nargs='+', help='list of file names')
+args = parser.parse_args()
+
+# force override line-length value
+lint_config = LintConfig()
+lint_config.get_rule_by_name_or_id('max-line-length').options['line-length'].value = args.max_line_length
+linter = lint.MarkdownLinter(lint_config)
+error_count = linter.lint_files(args.files)
+exit(error_count)

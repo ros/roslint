@@ -1,0 +1,81 @@
+#!/usr/bin/env python
+
+import argparse
+import sys
+
+
+def raw_xml(filename):
+    xml_string = ''
+    with open(filename, 'r') as file:
+        for line in file:
+            xml_string += line
+    return(xml_string)
+
+# https://stackoverflow.com/questions/749796/pretty-printing-xml-in-python
+import lxml.etree as etree
+
+
+def pretty_xml(filename):
+    xml_string = ''
+    with open(filename, 'r') as file:
+        for line in file:
+            if line == "\n":  # preserve blank line
+                line = "<nr/>\n"
+            xml_string += line
+
+    try:
+        parser = etree.XMLParser(remove_blank_text=True, compact=False)
+        x = etree.XML(xml_string, parser)
+    except Exception as e:
+        print(e)
+        print("Failed to parse XML file {}".format(filename))
+        return None
+
+    # check white space within element and atributes
+    for element in x.iter():
+        if element.text:
+            element.text = element.text.strip()
+        for attr in element.keys():
+            element.attrib[attr] = element.attrib[attr].strip()
+
+    pretty_xml_as_string = etree.tostring(x, pretty_print=True, xml_declaration=True, with_tail=False)
+    pretty_xml_as_string = pretty_xml_as_string.replace('  <nr/>', '')
+    return(pretty_xml_as_string)
+
+# https://docs.python.org/2/library/difflib.html
+import difflib
+
+
+def diff(s1, s2):
+    s1 = s1.splitlines(1)[1:]
+    s2 = s2.splitlines(1)[1:]
+    diff = difflib.ndiff(s1, s2)
+    if list(s1) != list(s2):
+        return ''.join(diff)
+    else:
+        return None
+
+parser = argparse.ArgumentParser(description='markdownlint')
+parser.add_argument('--fix', action='store_true', help='fix input xml file')
+parser.add_argument('files', type=str, nargs='+', help='list of file names')
+args = parser.parse_args()
+
+error = False
+for filename in args.files:
+    xml_as_string = raw_xml(filename)
+    pretty_xml_as_string = pretty_xml(filename)
+    if pretty_xml_as_string is None:
+        error = True
+    else:
+        if args.fix:
+            with open(filename, 'w') as file:
+                file.write(pretty_xml_as_string)
+        else:
+            diff_string = diff(xml_as_string, pretty_xml_as_string)
+            if diff_string:  # diff
+                print("Lint error on {} file".format(filename))
+                print(diff_string)
+                error = True
+
+if error:
+    exit(-1)

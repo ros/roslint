@@ -82,6 +82,18 @@ function(roslint_yaml)
   roslint_custom("${ROSLINT_YAML_CMD}" "-d ${ROSLINT_YAML_OPTS}" "--strict" ${ARGN})
 endfunction()
 
+# Run xmllint on a list of file names.
+#
+function(roslint_xml)
+  if ("${ARGN}" STREQUAL "")
+    file(GLOB_RECURSE ARGN *.xml *.launch)
+  endif()
+  if (NOT DEFINED ROSLINT_XML_CMD)
+    set(ROSLINT_XML_CMD ${ROSLINT_SCRIPTS_DIR}/xmllint)
+  endif()
+  roslint_custom("${ROSLINT_XML_CMD}" "${ROSLINT_XML_OPTS}" ${ARGN})
+endfunction()
+
 # Run markdown lint
 #
 function(roslint_markdown)

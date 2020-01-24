@@ -26,5 +26,6 @@
   <run_depend>python-pylint</run_depend>
   <run_depend>python-cpplint</run_depend>
   -->
+  <run_depend>yamllint</run_depend>
 
 </package>

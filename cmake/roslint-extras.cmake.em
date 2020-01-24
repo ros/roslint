@@ -67,6 +67,21 @@ function(roslint_python)
   roslint_custom("${ROSLINT_PYTHON_CMD}" "${ROSLINT_PYTHON_OPTS}" ${ARGN})
 endfunction()
 
+# Run yamllint on a list of file names.
+#
+function(roslint_yaml)
+  if ("${ARGN}" STREQUAL "")
+    file(GLOB_RECURSE ARGN *.yaml)
+  endif()
+  if (NOT DEFINED ROSLINT_YAML_CMD)
+    set(ROSLINT_YAML_CMD /usr/bin/yamllint)
+  endif()
+  if ("${ROSLINT_YAML_OPTS}" STREQUAL "")
+    set(ROSLINT_YAML_OPTS "{extends: default, rules: {document-start: disable}}")
+  endif()
+  roslint_custom("${ROSLINT_YAML_CMD}" "-d ${ROSLINT_YAML_OPTS}" "--strict" ${ARGN})
+endfunction()
+
 # Run roslint for this package as a test.
 function(roslint_add_test)
   catkin_run_tests_target("roslint" "package" "roslint-${PROJECT_NAME}.xml"

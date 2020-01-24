@@ -26,5 +26,8 @@
   <run_depend>python-pylint</run_depend>
   <run_depend>python-cpplint</run_depend>
   -->
+  <run_depend>python-catkin-lint</run_depend>
+  <run_depend>python-lxml</run_depend>
+  <run_depend>yamllint</run_depend>
 
 </package>

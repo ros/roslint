@@ -67,6 +67,54 @@ function(roslint_python)
   roslint_custom("${ROSLINT_PYTHON_CMD}" "${ROSLINT_PYTHON_OPTS}" ${ARGN})
 endfunction()
 
+# Run yamllint on a list of file names.
+#
+function(roslint_yaml)
+  if ("${ARGN}" STREQUAL "")
+    file(GLOB_RECURSE ARGN *.yaml)
+  endif()
+  if (NOT DEFINED ROSLINT_YAML_CMD)
+    set(ROSLINT_YAML_CMD /usr/bin/yamllint)
+  endif()
+  if ("${ROSLINT_YAML_OPTS}" STREQUAL "")
+    set(ROSLINT_YAML_OPTS "{extends: default, rules: {document-start: disable}}")
+  endif()
+  roslint_custom("${ROSLINT_YAML_CMD}" "-d ${ROSLINT_YAML_OPTS}" "--strict" ${ARGN})
+endfunction()
+
+# Run xmllint on a list of file names.
+#
+function(roslint_xml)
+  if ("${ARGN}" STREQUAL "")
+    file(GLOB_RECURSE ARGN *.xml *.launch)
+  endif()
+  if (NOT DEFINED ROSLINT_XML_CMD)
+    set(ROSLINT_XML_CMD ${ROSLINT_SCRIPTS_DIR}/xmllint)
+  endif()
+  roslint_custom("${ROSLINT_XML_CMD}" "${ROSLINT_XML_OPTS}" ${ARGN})
+endfunction()
+
+# Run markdown lint
+#
+function(roslint_markdown)
+  if ("${ARGN}" STREQUAL "")
+    file(GLOB_RECURSE ARGN *.md)
+  endif()
+  if (NOT DEFINED ROSLINT_MARKDOWN_CMD)
+    set(ROSLINT_MARKDOWN_CMD ${ROSLINT_SCRIPTS_DIR}/markdownlint)
+  endif()
+  roslint_custom("${ROSLINT_MARKDOWN_CMD}" "${ROSLINT_MARKDOWN_OPTS}" ${ARGN})
+endfunction()
+
+# Run catkin_lint
+#
+function(roslint_catkin)
+  if (NOT DEFINED ROSLINT_CATKIN_CMD)
+    set(ROSLINT_CATKIN_CMD ${ROSLINT_SCRIPTS_DIR}/catkin_lint)
+  endif()
+  roslint_custom("${ROSLINT_CATKIN_CMD}" "${ROSLINT_CATKIN_OPTS}" ${PROJECT_SOURCE_DIR})
+endfunction()
+
 # Run roslint for this package as a test.
 function(roslint_add_test)
   catkin_run_tests_target("roslint" "package" "roslint-${PROJECT_NAME}.xml"

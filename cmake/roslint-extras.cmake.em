@@ -82,6 +82,15 @@ function(roslint_yaml)
   roslint_custom("${ROSLINT_YAML_CMD}" "-d ${ROSLINT_YAML_OPTS}" "--strict" ${ARGN})
 endfunction()
 
+# Run catkin_lint
+#
+function(roslint_catkin)
+  if (NOT DEFINED ROSLINT_CATKIN_CMD)
+    set(ROSLINT_CATKIN_CMD ${ROSLINT_SCRIPTS_DIR}/catkin_lint)
+  endif()
+  roslint_custom("${ROSLINT_CATKIN_CMD}" "${ROSLINT_CATKIN_OPTS}" ${PROJECT_SOURCE_DIR})
+endfunction()
+
 # Run roslint for this package as a test.
 function(roslint_add_test)
   catkin_run_tests_target("roslint" "package" "roslint-${PROJECT_NAME}.xml"

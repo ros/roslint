@@ -141,7 +141,7 @@ def ProcessLine(fn, filename, file_extension, clean_lines, line,
 def CheckEmptyBlockBody(fn, filename, clean_lines, linenum, error):
     """ Look for empty loop/conditional body with only a single semicolon,
         but allow ros-style do while loops. """
-    from cpplint import CloseExpression
+    from roslint.cpplint import CloseExpression
 
     # Search for loop keywords at the beginning of the line.  Because only
     # whitespaces are allowed before the keywords, this will also ignore most

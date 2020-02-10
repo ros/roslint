@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-#
 # Copyright (c) 2009 Google Inc. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -57,7 +55,12 @@ try:
   xrange          # Python 2
 except NameError:
   xrange = range  # Python 3
-
+  unicode = str
+else:
+  sys.stderr = codecs.StreamReaderWriter(sys.stderr,
+                                         codecs.getreader('utf8'),
+                                         codecs.getwriter('utf8'),
+                                         'replace')
 
 _USAGE = """
 Syntax: cpplint.py [--verbose=#] [--output=vs7] [--filter=-x,+y,...]
@@ -952,7 +955,7 @@ class _CppLintState(object):
 
   def PrintErrorCounts(self):
     """Print a summary of errors by category, and the total."""
-    for category, count in self.errors_by_category.iteritems():
+    for category, count in self.errors_by_category.items():
       sys.stderr.write('Category \'%s\' errors found: %d\n' %
                        (category, count))
     sys.stdout.write('Total errors found: %d\n' % self.error_count)
@@ -4622,7 +4625,7 @@ def _GetTextInside(text, start_pattern):
 
   # Give opening punctuations to get the matching close-punctuations.
   matching_punctuation = {'(': ')', '{': '}', '[': ']'}
-  closing_punctuation = set(matching_punctuation.itervalues())
+  closing_punctuation = set(matching_punctuation.values())
 
   # Find the position to start extracting text.
   match = re.search(start_pattern, text, re.M)
@@ -6222,13 +6225,6 @@ def ParseArguments(args):
 
 def main():
   filenames = ParseArguments(sys.argv[1:])
-
-  # Change stderr to write with replacement characters so we don't die
-  # if we try to print something containing non-ASCII characters.
-  sys.stderr = codecs.StreamReaderWriter(sys.stderr,
-                                         codecs.getreader('utf8'),
-                                         codecs.getwriter('utf8'),
-                                         'replace')
 
   _cpplint_state.ResetErrorCounts()
   for filename in filenames:

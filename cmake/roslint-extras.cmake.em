@@ -39,7 +39,7 @@ function(roslint_custom linter lintopts)
     _roslint_create_targets()
     add_custom_command(TARGET roslint_${PROJECT_NAME} POST_BUILD
                        WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
-                       COMMAND ${linter} ${lintopts} ${ARGN} VERBATIM)
+                       COMMAND ${CATKIN_ENV} ${linter} ${lintopts} ${ARGN} VERBATIM)
   endif()
 endfunction()
 
@@ -62,7 +62,7 @@ function(roslint_python)
     file(GLOB_RECURSE ARGN *.py)
   endif()
   if (NOT DEFINED ROSLINT_PYTHON_CMD)
-    set(ROSLINT_PYTHON_CMD ${ROSLINT_SCRIPTS_DIR}/pep8)
+    set(ROSLINT_PYTHON_CMD ${ROSLINT_SCRIPTS_DIR}/pycodestyle)
   endif()
   roslint_custom("${ROSLINT_PYTHON_CMD}" "${ROSLINT_PYTHON_OPTS}" ${ARGN})
 endfunction()
@@ -70,6 +70,6 @@ endfunction()
 # Run roslint for this package as a test.
 function(roslint_add_test)
   catkin_run_tests_target("roslint" "package" "roslint-${PROJECT_NAME}.xml"
-    COMMAND "${ROSLINT_SCRIPTS_DIR}/test_wrapper ${CATKIN_TEST_RESULTS_DIR}/${PROJECT_NAME}/roslint-${PROJECT_NAME}.xml make roslint_${PROJECT_NAME}"
+    COMMAND ${ROSLINT_SCRIPTS_DIR}/test_wrapper ${CATKIN_TEST_RESULTS_DIR}/${PROJECT_NAME}/roslint-${PROJECT_NAME}.xml make roslint_${PROJECT_NAME}
     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
 endfunction()

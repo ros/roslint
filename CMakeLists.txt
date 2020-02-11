@@ -10,7 +10,7 @@ install(PROGRAMS scripts/test_wrapper
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
-catkin_install_python(PROGRAMS scripts/cpplint scripts/pep8
+catkin_install_python(PROGRAMS scripts/cpplint scripts/pycodestyle
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 

@@ -6,7 +6,11 @@ find_package(catkin REQUIRED)
 catkin_package(CFG_EXTRAS roslint-extras.cmake)
 catkin_python_setup()
 
-install(PROGRAMS scripts/cpplint scripts/pep8 scripts/test_wrapper
+install(PROGRAMS scripts/test_wrapper
+  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
+
+catkin_install_python(PROGRAMS scripts/cpplint scripts/pycodestyle
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 

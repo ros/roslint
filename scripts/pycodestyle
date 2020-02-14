@@ -2,14 +2,13 @@
 
 import sys
 try:
-    from roslint import pep8
+    from roslint import pycodestyle
 except ImportError:
     # Allows the target to work with an un-sourced workspace.
     import os.path
     sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), "..", "src"))
-    from roslint import pep8
+    from roslint import pycodestyle
 
-# Prepend max line-length so that user can overide it. The number is 1
-# since 0 is the name of the program.
-sys.argv.insert(1, "--max-line-length=120")
-pep8._main()
+pycodestyle.MAX_LINE_LENGTH = 120
+
+pycodestyle._main()

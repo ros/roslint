@@ -165,7 +165,7 @@ def CheckEmptyBlockBody(fn, filename, clean_lines, linenum, error):
                 error(filename, end_linenum,
                       'whitespace/empty_conditional_body', 5,
                       'Empty conditional bodies should use {}')
-            elif matched.group(1) == 'while' and linenum is not 0 \
+            elif matched.group(1) == 'while' and linenum != 0 \
                     and "}" in clean_lines.elided[linenum-1]:
                 # Don't report an error for ros style do-whiles. Works
                 # by checking for a closing brace on the previous

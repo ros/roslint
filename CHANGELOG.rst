@@ -2,6 +2,25 @@
 Changelog for package roslint
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Misc tidying for ROS Noetic. (`#79 <https://github.com/ros/roslint//issues/79>`_)
+  - Invoke wrappers with python -m instead of as scripts.
+  - Drop logic not needed with CATKIN_ENV used.
+  - Drop unneeded install of the cmake extra.
+  - Print output as well as capturing in test wrapper.
+* Bump CMake version to avoid CMP0048 warning (`#77 <https://github.com/ros/roslint//issues/77>`_)
+* Fix is-not usage in cpplint-wrapper (`#76 <https://github.com/ros/roslint//issues/76>`_)
+  Python complains about this during installation now.
+* Bump to latest pycodestyle.
+* Python 3 fixes for cpplint.
+* Bump cpplint.py to latest version
+* Update URL to cpplint
+* Support for headers outside of include folder (`#68 <https://github.com/ros/roslint//issues/68>`_)
+* Adding hpp to default list of extensions. (`#69 <https://github.com/ros/roslint//issues/69>`_)
+* CheckBracers now correctly accepts C++11 bracer-init-lists passed as arguments to functions (`#63 <https://github.com/ros/roslint//issues/63>`_)
+* Contributors: Joshua Whitley, Maciej Żurad, Mike Purvis, Shane Loretz, mistoll
+
 0.11.2 (2018-03-21)
 -------------------
 * Define xrange() for Python 3 (`#60 <https://github.com/ros/roslint/issues/60>`_)

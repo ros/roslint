@@ -2,8 +2,8 @@
 Changelog for package roslint
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.12.0 (2020-03-16)
+-------------------
 * Misc tidying for ROS Noetic. (`#79 <https://github.com/ros/roslint//issues/79>`_)
   - Invoke wrappers with python -m instead of as scripts.
   - Drop logic not needed with CATKIN_ENV used.

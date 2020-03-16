@@ -1,11 +1,14 @@
-#!/bin/bash
+import sys
+print("xxxxx %s" % (" ".join(sys.argv)))
+'''
+echo "xxxxxxx $1 $2 $3 $4"
 
 RESULTS_FILE=$1
-TARGET_NAME=${@: -1}
+TARGET_NAME=${@:-1}
 shift
 
 # Run remain args as test command, capturing the output.
-LINTER_OUTPUT=$( $@ 2>&1 )
+LINTER_OUTPUT=$( $@ 2>&1 | tee /dev/stdout)
 LINTER_RESULT=$?
 
 mkdir -p `dirname $RESULTS_FILE`
@@ -31,3 +34,4 @@ else
 ENDXML
   exit 1
 fi
+'''

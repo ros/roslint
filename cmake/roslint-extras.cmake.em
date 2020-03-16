@@ -70,6 +70,6 @@ endfunction()
 # Run roslint for this package as a test.
 function(roslint_add_test)
   catkin_run_tests_target("roslint" "package" "roslint-${PROJECT_NAME}.xml"
-    COMMAND ${ROSLINT_SCRIPTS_DIR}/test_wrapper ${CATKIN_TEST_RESULTS_DIR}/${PROJECT_NAME}/roslint-${PROJECT_NAME}.xml make roslint_${PROJECT_NAME}
+    COMMAND "${PYTHON_EXECUTABLE} -m roslint.test_wrapper ${CATKIN_TEST_RESULTS_DIR}/${PROJECT_NAME}/roslint-${PROJECT_NAME}.xml make roslint_${PROJECT_NAME}"
     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
 endfunction()

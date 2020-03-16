@@ -10,14 +10,6 @@ install(PROGRAMS scripts/test_wrapper
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
-catkin_install_python(PROGRAMS scripts/cpplint scripts/pycodestyle
-  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-)
-
-install(DIRECTORY cmake
-  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
-)
-
 # Lint itself. This also serves as a smoke check of the cmake extras file.
 # Please note that this complexity is due to self-checking. For typical usage, please
 # see the ROS wiki: http://wiki.ros.org/roslint
@@ -31,6 +23,7 @@ if(CATKIN_ENABLE_TESTING)
 
   roslint_python(
     setup.py
-    src/roslint/cpplint_wrapper.py)
+    src/roslint/cpplint_wrapper.py
+    src/roslint/pycodestyle_wrapper.py)
   roslint_add_test()
 endif()

@@ -30,12 +30,13 @@
 # ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-from roslint import cpplint
-from roslint.cpplint import Match, IsBlankLine, main
+from . import cpplint
+from .cpplint import Match, IsBlankLine, main
 from functools import partial
 
 import os.path
 import re
+import sys
 
 # Line length as per the ROS C++ Style Guide
 cpplint._line_length = 120
@@ -175,3 +176,8 @@ def CheckEmptyBlockBody(fn, filename, clean_lines, linenum, error):
             else:
                 error(filename, end_linenum, 'whitespace/empty_loop_body', 5,
                       'Empty loop bodies should use {} or continue')
+
+
+if __name__ == '__main__':
+    sys.argv.insert(1, "--filter=-runtime/references")
+    main()

@@ -559,13 +559,13 @@ _root_debug = False
 # This is set by --linelength flag.
 _line_length = 80
 
-# The allowed extensions for file names
+# The allowed extensions for file names (headers are added later)
 # This is set by --extensions flag.
-_valid_extensions = set(['cc', 'h', 'cpp', 'cu', 'cuh'])
+_valid_extensions = set(['cc', 'cpp', 'cu', 'cuh'])
 
 # Treat all headers starting with 'h' equally: .h, .hpp, .hxx etc.
 # This is set by --headers flag.
-_hpp_headers = set(['h'])
+_hpp_headers = set(['h', 'hpp', 'hxx'])
 
 # {str, bool}: a map from error categories to booleans which indicate if the
 # category should be suppressed for every line.
@@ -4304,7 +4304,7 @@ def GetLineWidth(line):
           is_low_surrogate = 0xDC00 <= ord(uc) <= 0xDFFF
           if not is_wide_build and is_low_surrogate:
             width -= 1
-          
+
         width += 1
     return width
   else:

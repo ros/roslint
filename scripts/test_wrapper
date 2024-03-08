@@ -7,7 +7,6 @@ TARGET_NAME=${@: -1}
 shift
 
 # Run remain args as test command, capturing the output.
-LINTER_OUTPUT=$( $@ 2>&1 | tee /dev/stderr )
 LINTER_RESULT=$?
 
 mkdir -p `dirname $RESULTS_FILE`
@@ -22,6 +21,7 @@ ENDXML
   exit 0
 else
   # Lint failed
+LINTER_OUTPUT=$( $@ 2>&1 | tee /dev/stderr )
   # TODO: This output could be more helpful; really just a first cut.
  cat <<ENDXML > $RESULTS_FILE
 <?xml version="1.0" encoding="UTF-8"?>

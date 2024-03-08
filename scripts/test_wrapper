@@ -1,12 +1,11 @@
 #!/bin/bash
 
-set -o pipefail
-
 RESULTS_FILE=$1
 TARGET_NAME=${@: -1}
 shift
 
 # Run remain args as test command, capturing the output.
+LINTER_OUTPUT=$( $@ 2>&1 )
 LINTER_RESULT=$?
 
 mkdir -p `dirname $RESULTS_FILE`
@@ -21,7 +20,7 @@ ENDXML
   exit 0
 else
   # Lint failed
-LINTER_OUTPUT=$( $@ 2>&1 | tee /dev/stderr )
+  >&2 echo $LINTER_OUTPUT
   # TODO: This output could be more helpful; really just a first cut.
  cat <<ENDXML > $RESULTS_FILE
 <?xml version="1.0" encoding="UTF-8"?>

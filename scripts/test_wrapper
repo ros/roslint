@@ -5,12 +5,13 @@ TARGET_NAME=${@: -1}
 shift
 
 # Run remain args as test command, capturing the output.
-LINTER_OUTPUT=$( $@ 2>&1 )
+LINTER_OUTPUT="$( $@ 2>&1 )"
 LINTER_RESULT=$?
 
 mkdir -p `dirname $RESULTS_FILE`
 if [[ "$LINTER_RESULT" == "0" ]]; then
   # Lint pass
+echo "$LINTER_OUTPUT"
 cat <<ENDXML > $RESULTS_FILE
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuite name="roslint" tests="1" failures="0" errors="0">
@@ -20,9 +21,9 @@ ENDXML
   exit 0
 else
   # Lint failed
-  >&2 echo $LINTER_OUTPUT
-  # TODO: This output could be more helpful; really just a first cut.
- cat <<ENDXML > $RESULTS_FILE
+echo "$LINTER_OUTPUT" >&2
+# TODO: This output could be more helpful; really just a first cut.
+cat <<ENDXML > $RESULTS_FILE
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuite name="roslint" tests="1" failures="1" errors="0">
   <testcase name="$TARGET_NAME" classname="roslint.LintCheck">

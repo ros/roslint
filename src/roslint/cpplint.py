@@ -575,8 +575,6 @@ def ProcessHppHeadersOption(val):
   global _hpp_headers
   try:
     _hpp_headers = set(val.split(','))
-    # Automatically append to extensions list so it does not have to be set 2 times
-    _valid_extensions.update(_hpp_headers)
   except ValueError:
     PrintUsage('Header extensions must be comma separated list.')
 
@@ -6027,6 +6025,9 @@ def ProcessConfigOverrides(filename):
   # config options having the least priority).
   for filter in reversed(cfg_filters):
      _AddFilters(filter)
+
+  # These are either the default headers or were modified above by options
+  _valid_extensions.update(_hpp_headers)
 
   return True
 
